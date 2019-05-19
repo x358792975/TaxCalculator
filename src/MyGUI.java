@@ -25,7 +25,6 @@ public class MyGUI extends JFrame {
 
     public MyGUI(){
         super("Tax Calculator");
-
     }
     public void initialUI(HashMap<String, Double> stateTax, HashMap<String, Double> currencyRate){
 
@@ -41,19 +40,13 @@ public class MyGUI extends JFrame {
         JFrame f = new JFrame();
         f.add(panel);
         label1 = new JLabel();
-
-        //label1.setForeground(Color.red);
         label1.setText("Please Select a State:                   ");
-
         panel.add(label1);
-
         this.add(panel);
         label2 = new JLabel();
         label2.setText("Please enter the amount of money:           ");
         this.add(label2);
-
         label3 = new JLabel("Click button to compute :                              ");
-
         ItemListener itemListener = new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent arg0) {
@@ -61,13 +54,13 @@ public class MyGUI extends JFrame {
                 if(ItemEvent.SELECTED == arg0.getStateChange()){
                     String selectedItem = arg0.getItem().toString();
                     selectedState = selectedItem;
+                    System.out.println("Selected State: " + selectedState);
                 }
                 if(ItemEvent.DESELECTED == arg0.getStateChange()){
                     String selectedItem = arg0.getItem().toString();
                 }
             }
         };
-
 
         statesBox = new JComboBox<>();
         statesBox.setEditable(true);
@@ -79,36 +72,29 @@ public class MyGUI extends JFrame {
         }
         statesBox.setEditable(false);
         panel.add(statesBox);
-
         add(label2);
-
         txt = new JTextField(8);
         taTax = new TextArea(2,50);
-
-
         add(txt);
         add(label3);
         compute = new JButton("Compute Tax");
         compute.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                amount = Integer.parseInt(txt.getText());
+                amount = Double.parseDouble(txt.getText());
                 double taxRate = (stateTax.get(selectedState))/100;
                 total = (amount * (1+ taxRate ));
                 taTax.setText("Final Amount: " + df.format(total));
                 System.out.println("Amount :  " + amount);
-                System.out.println("total  " + total);
+                System.out.println("Tax rate is " + df.format(taxRate*100) + "%");
+                System.out.println("total after tax " + df.format(total));
             }
         });
-
-
         add(compute);
         taTax.setEditable(false);
         add(taTax);
-
         label4 = new JLabel("Please select a country:                       ");
         add(label4);
-
         ItemListener countryListener = new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent arg0) {
@@ -116,13 +102,13 @@ public class MyGUI extends JFrame {
                 if(ItemEvent.SELECTED == arg0.getStateChange()){
                     String selectedItem = arg0.getItem().toString();
                     selectedCountry = selectedItem;
+                    System.out.println("Selected Country: " + selectedCountry);
                 }
                 if(ItemEvent.DESELECTED == arg0.getStateChange()){
                     String selectedItem = arg0.getItem().toString();
                 }
             }
         };
-
         countryBox = new JComboBox<>();
         countryBox.setEditable(true);
         countryBox.addItemListener(countryListener);
@@ -132,29 +118,24 @@ public class MyGUI extends JFrame {
             countryBox.addItem(current.getKey().toString());
         }
         countryBox.setEditable(false);
-
         add(countryBox);
-
         label5 = new JLabel("Click button to compute foreign currency exchange: ");
         add(label5);
-
         btnCurrency = new JButton("Compute Currency Exchange: " );
         btnCurrency.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 double curRate = currencyRate.get(selectedCountry);
-                System.out.println(curRate);
+                System.out.println("Currency Rate is " + curRate);
                 currencyResult = total * curRate;
                 taExchange.setText(df.format(currencyResult));
+                System.out.println("After exchange the currency " + df.format(currencyResult));
             }
         });
         add(btnCurrency);
-
         taExchange = new TextArea(2,50);
         add(taExchange);
-
         taExchange.setEditable(false);
-
         this.setSize(500, 600);
         this.setResizable(false);
         this.setVisible(true);

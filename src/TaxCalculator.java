@@ -1,6 +1,6 @@
 import java.util.HashMap;
 
-public class Main {
+public class TaxCalculator {
 
     public static void main(String[] args) {
 
@@ -67,7 +67,5 @@ public class Main {
 
         MyGUI gui = new MyGUI();
         gui.initialUI(stateTax, currencyRate);
-
-
     }
 }
